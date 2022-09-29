@@ -7,21 +7,28 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class AlgShennon {
+    static final int LANGUAGE_POWER = 32;
     public static void main(String[] args) throws FileNotFoundException {
-        final int LANGUAGE_POWER = 32;
+
         int hashLength = (int)(LANGUAGE_POWER/0.75);
+        double shennonNumber;
+        double overpower;
+
         FileReader file = new FileReader("input.txt");
         Scanner sc = new Scanner(file);
         String inputString = sc.nextLine();
         char[] chars = inputString.toCharArray();
 
+
         HashMap <Character, Integer> hm = languageInput(hashLength);
         for (char ch: chars){
             hm.put(ch, hm.get(ch) + 1);
         }
+        shennonNumber = getShennonNumber( hm, inputString.length());
+        overpower = getOverpower(hm, shennonNumber);
 
-        printShennon(inputString, shennonNumber( hm, inputString.length() ) );
-        System.out.println( shennonNumber(hm, inputString.length()) );
+        printToFile(inputString,  shennonNumber,  overpower);
+
     }
 
     private static HashMap<Character, Integer> languageInput(int mapSize){
@@ -62,14 +69,13 @@ public class AlgShennon {
         return hm;
     }
 
-    private static double shennonNumber(HashMap<Character, Integer> hm, int length){
+    private static double getShennonNumber(HashMap<Character, Integer> hm, int length){
         double resultNumber = 0;
         Integer bufNumber;
         for (Map.Entry<Character, Integer> entry: hm.entrySet()){
             bufNumber = entry.getValue();
             double logNumber = (double)bufNumber/length;
             if(bufNumber!=0.0) {
-                System.out.println(logNumber);
                 resultNumber -= logNumber * Math.log(logNumber) / Math.log(2);
             }
 
@@ -77,21 +83,17 @@ public class AlgShennon {
         return resultNumber;
     }
 
-    private static void printShennon (String s, double number) throws FileNotFoundException {
+    private static void printToFile (String s, double shennonNumber, double overpower) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt"));
         pw.println("String is \""+ s + "\"" );
-        pw.println("Its Shennon number is " + number);
+        pw.println("Its Shennon number is " + shennonNumber);
+        pw.println("Its overpower is " + overpower + " бит/симв.");
         pw.close();
     }
 
-  /*  enum Alphabet {
-        А, Б, В, Г, Д, Е, Ж, З, И, К, Л, М, Н, О, П, Р, С, Т, У, Ф, Х, Ц, Ч, Ш, Щ, Ъ, Ы, Ь, Э, Ю, Я;
-
-        int count;
-
-        Alphabet(){
-            this.count = 0;
-        }
+    private static double getOverpower(HashMap<Character, Integer> hm, double shennon){
+        double languageWorstPower = - Math.log((double)1/LANGUAGE_POWER)/Math.log(2);
+        return languageWorstPower - shennon;
     }
-*/
+
 }
