@@ -1,0 +1,2 @@
+String is "ОБОРОНОСПОСОБНОСТЬ"
+Its Shennon number is NaN
