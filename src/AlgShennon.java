@@ -20,7 +20,7 @@ public class AlgShennon {
             hm.put(ch, hm.get(ch) + 1);
         }
 
-        printShennon(inputString, shennonNumber(hm, inputString.length()));
+        printShennon(inputString, shennonNumber( hm, inputString.length() ) );
         System.out.println( shennonNumber(hm, inputString.length()) );
     }
 
@@ -64,10 +64,15 @@ public class AlgShennon {
 
     private static double shennonNumber(HashMap<Character, Integer> hm, int length){
         double resultNumber = 0;
-        int bufNumber;
+        Integer bufNumber;
         for (Map.Entry<Character, Integer> entry: hm.entrySet()){
             bufNumber = entry.getValue();
-            if(bufNumber!=0) resultNumber -= bufNumber/length * Math.log(bufNumber/length);
+            double logNumber = (double)bufNumber/length;
+            if(bufNumber!=0.0) {
+                System.out.println(logNumber);
+                resultNumber -= logNumber * Math.log(logNumber) / Math.log(2);
+            }
+
         }
         return resultNumber;
     }
