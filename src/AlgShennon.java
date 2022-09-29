@@ -17,6 +17,7 @@ public class AlgShennon {
         FileReader file = new FileReader("input.txt");
         Scanner sc = new Scanner(file);
         String inputString = sc.nextLine();
+        inputString = inputString.substring(0, inputString.indexOf(":"));
         char[] chars = inputString.toCharArray();
 
 
@@ -56,6 +57,7 @@ public class AlgShennon {
         hm.put('Ф', count);
         hm.put('Х', count);
         hm.put('Ц', count);
+        hm.put('Ч', count);
         hm.put('Ш', count);
         hm.put('Щ', count);
         hm.put('Ъ', count);
