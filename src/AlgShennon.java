@@ -27,8 +27,9 @@ public class AlgShennon {
         shennonNumber = getShennonNumber( hm, inputString.length());
         overpower = getOverpower( shennonNumber);
         keyEntropy = getShennonNumber(hm, inputString.length()) * inputString.length();
-        printToFile(inputString,  shennonNumber,  overpower, keyEntropy);
-
+        double length = getLength(overpower,keyEntropy);
+        printToFile(inputString,  shennonNumber,  overpower, keyEntropy, length);
+        System.out.println(hm);
     }
 
     private static double getShennonNumber(HashMap<Character, Integer> hm, int length){
@@ -45,19 +46,25 @@ public class AlgShennon {
         return resultNumber;
     }
 
-    private static void printToFile (String s, double shennonNumber, double overpower, double keyEntropy)
+    private static void printToFile (String s, double shennonNumber,
+                                     double overpower, double keyEntropy, double length)
             throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(new FileOutputStream("output.txt"));
         pw.println("String is \""+ s + "\"" );
         pw.println("Its Shennon number is " + shennonNumber);
         pw.println("Its overpower is " + overpower + " бит/симв.");
         pw.println("Key Entropy is " + keyEntropy);
+        pw.println("Расстояние единственности:" +  length );
         pw.close();
     }
 
     private static double getOverpower( double shennon){
         double languageWorstPower = - Math.log((double)1/LANGUAGE_POWER)/Math.log(2);
         return languageWorstPower - shennon;
+    }
+
+    private static double getLength(double overpower, double keyEntropy){
+        return (keyEntropy/overpower);
     }
 
 }
